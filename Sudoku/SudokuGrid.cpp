@@ -1,6 +1,6 @@
 //
 // Created by John on 10/8/2015.
-//
+//John loves dicksinan
 
 #include "SudokuGrid.h"
 #include "utils/Tokenizer.h"
