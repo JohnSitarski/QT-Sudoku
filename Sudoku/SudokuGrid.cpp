@@ -1,6 +1,6 @@
 //
 // Created by John on 10/8/2015.
-//John loves dicksinan
+//Jo
 
 #include "SudokuGrid.h"
 #include "utils/Tokenizer.h"
@@ -8,28 +8,43 @@
 #include <iostream>
 
 
-
-std::vector<int> SudokuGrid::getPossibleValues(int index)  {
+std::vector<int> SudokuGrid::getPossibleValues(int index) {
     std::vector<int> vector;
-    for (int i = 1;i<10;i++){
+    for (int i = 1; i < 10; i++) {
         vector.push_back(i);
     }
-    std::vector<SudokuCell*> sectionCells = getSudokuSection(getSection(index));
-    for (int i = 0; i < sectionCells.size(); i++){
+    int *point = getCellLocation(index);
+    std::vector<SudokuCell *> sectionCells = getSudokuSection(getSection(index));
+    for (int i = 0; i < sectionCells.size(); i++) {
         if (std::find(vector.begin(), vector.end(), sectionCells.at(i)->getValue()) != vector.end()) {
-            std::cout << "Removing "<< sectionCells.at(i)->getValue() << std::endl;
-            int index = std::find(vector.begin(),vector.end(),sectionCells.at(i)->getValue()) - vector.begin();
-            std::swap(vector[index],vector.back());
+            int index = std::find(vector.begin(), vector.end(), sectionCells.at(i)->getValue()) - vector.begin();
+            std::swap(vector[index], vector.back());
             vector.pop_back();
         }
     }
 
+    for (int x = 0; x < 9; x++) {
+        int value = getCell(getIndex(x, point[1])).getValue();
+        if (std::find(vector.begin(), vector.end(), value) != vector.end()) {
+            int index = std::find(vector.begin(), vector.end(), value) - vector.begin();
+            std::swap(vector[index], vector.back());
+            vector.pop_back();
+        }
+    }
 
+    for (int x = 0; x < 9; x++) {
+        int value = getCell(getIndex(point[0], x)).getValue();
+        //std:: cout << getIndex(point[0],x) << " value:"<< value << std::endl;
+        if (std::find(vector.begin(), vector.end(), value) != vector.end()) {
+            int index = std::find(vector.begin(), vector.end(), value) - vector.begin();
+            std::swap(vector[index], vector.back());
+            vector.pop_back();
+        }
+    }
     return vector;
 }
 
 int SudokuGrid::getIndex(int x, int y) const {
-
     return y * 9 + x;
 }
 
