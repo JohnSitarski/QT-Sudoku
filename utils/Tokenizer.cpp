@@ -1,7 +1,3 @@
-//
-// Created by John on 10/14/2015.
-//
-
 #include "Tokenizer.h"
 
 

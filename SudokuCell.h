@@ -1,13 +1,11 @@
-//
-// Created by John on 10/8/2015.
-//
-
-#ifndef SUDOKU_SUDOKUCELL_H
-#define SUDOKU_SUDOKUCELL_H
+#ifndef SUDOKUCELL_H
+#define SUDOKUCELL_H
 
 #include <string>
 #include <sstream>
-
+#include <QString>
+#include <iostream>
+#include <QTextStream>
 class SudokuCell {
 private:
     int value = 0;
@@ -30,12 +28,15 @@ public:
 
     std::string toString() const;
 
+    QString toQTString()const;
+
     friend std::ostream &operator<<(std::ostream&, const SudokuCell&) ;
+
+    friend QTextStream &operator<<(QTextStream&, const SudokuCell&) ;
 
     SudokuCell(const SudokuCell&);
 
     SudokuCell &operator=(const SudokuCell &cell);
 
 };
-
-#endif //SUDOKU_SUDOKUCELL_H
+#endif // SUDOKUCELL_H

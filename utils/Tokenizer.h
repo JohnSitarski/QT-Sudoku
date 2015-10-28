@@ -1,9 +1,5 @@
-//
-// Created by John on 10/14/2015.
-//
-
-#ifndef SUDOKU_TOKENIZER_H
-#define SUDOKU_TOKENIZER_H
+#ifndef TOKENIZER_H
+#define TOKENIZER_H
 
 #include <string>
 #include <vector>
@@ -27,4 +23,4 @@ public:
 
 };
 
-#endif //SUDOKU_TOKENIZER_H
+#endif // TOKENIZER_H

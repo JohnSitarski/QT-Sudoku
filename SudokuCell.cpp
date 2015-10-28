@@ -1,9 +1,4 @@
-//
-// Created by John on 10/8/2015.
-//
-
 #include "SudokuCell.h"
-#include <iostream>
 
 SudokuCell::SudokuCell() {
     this->value = 0;
@@ -53,13 +48,23 @@ void SudokuCell::setFinal(const bool b) {
 
 std::string SudokuCell::toString() const {
     std::stringstream ss;
+    std::cout << value << std::endl;
     ss << value;
     if (isFinal())
         ss << "F";
     return ss.str();
 }
 
+QString SudokuCell::toQTString() const {
+    return QString::fromStdString(toString());
+}
+
 std::ostream &operator<<(std::ostream &ostream, const SudokuCell &cell) {
     ostream << cell.toString();
+    return ostream;
+}
+
+QTextStream &operator<<(QTextStream &ostream, const SudokuCell &cell) {
+    ostream << cell.toQTString();
     return ostream;
 }

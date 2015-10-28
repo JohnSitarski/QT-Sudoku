@@ -1,10 +1,5 @@
-//
-// Created by John on 10/8/2015.
-//
-
-#ifndef SUDOKU_SUDOKUGRID_H
-#define SUDOKU_SUDOKUGRID_H
-
+#ifndef SUDOKUGRID_H
+#define SUDOKUGRID_H
 
 #include <string>
 #include "SudokuCell.h"
@@ -13,6 +8,8 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
+#include <iostream>
+#include <QString>
 class SudokuGrid{
 private:
     SudokuCell* cellArray[81] ;
@@ -35,6 +32,8 @@ public:
     SudokuCell& getCell(int index) const;
 
     std::string getGridString() const;
+
+    QString getQtGridString() const;
 
     int* getCellLocation(int index) const;
 
@@ -60,4 +59,8 @@ public:
 
 
 
-#endif //SUDOKU_SUDOKUGRID_H
+
+
+
+
+#endif // SUDOKUGRID_H

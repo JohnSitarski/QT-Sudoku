@@ -1,11 +1,7 @@
-//
-// Created by John on 10/8/2015.
-//Jo
-
 #include "SudokuGrid.h"
 #include "utils/Tokenizer.h"
 
-#include <iostream>
+
 
 
 std::vector<int> SudokuGrid::getPossibleValues(int index) {
@@ -126,6 +122,11 @@ std::string SudokuGrid::getGridString() const {
     return ss.str();
 }
 
+
+QString SudokuGrid::getQtGridString() const {
+    return QString::fromStdString(getGridString());
+}
+
 void SudokuGrid::setCell(int index, SudokuCell *cell) {
     cellArray[index] = cell;
 }
@@ -141,7 +142,3 @@ void SudokuGrid::addSudokuMove(const SudokuMove &move) {
 //    moveVector.push(&move);
 
 }
-
-
-
-

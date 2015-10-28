@@ -1,9 +1,5 @@
-//
-// Created by John on 10/12/2015.
-//
-
-#ifndef SUDOKU_SUDOKUMOVE_H
-#define SUDOKU_SUDOKUMOVE_H
+#ifndef SUDOKUMOVE_H
+#define SUDOKUMOVE_H
 #include "SudokuCell.h"
 
 class SudokuMove{
@@ -35,4 +31,5 @@ public:
 
 
 };
-#endif //SUDOKU_SUDOKUMOVE_H
+
+#endif // SUDOKUMOVE_H

@@ -1,21 +1,17 @@
-#include <iostream>
-#include "sudoku/SudokuCell.h"
-#include "sudoku/SudokuGrid.h"
-#include "sudoku/utils/Tokenizer.h"
-using namespace std;
-
-int main() {
-    SudokuCell cell = SudokuCell(2);
+#include "mainwindow.h"
+#include <QApplication>
+#include <QTextStream>
+#include "SudokuCell.h"
+#include "SudokuGrid.h"
+#include <QString>
+int main(int argc, char *argv[])
+{
     SudokuGrid grid;
-    grid.setCell(80,&cell);
-    grid.importGrid("1 2 3 4 5F 6 7 8 0 0 0 0 0 0 0 0 0 8 0 0 0 0 0 0 0 0 0 0 7 0 0 0 0 0 0 6 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 4 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 1");
-    cout << grid.getGridString() << endl;
-    std:: vector<int> vector = grid.getPossibleValues(15);
-    for (auto c: vector){
-        cout << "Possible result: " << c<< endl;
+    QTextStream cout(stdout);
+    cout << grid.getQtGridString()<< endl;
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-    }
-
-
-    return 0;
+    return a.exec();
 }
