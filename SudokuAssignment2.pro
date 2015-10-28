@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     SudokuCell.cpp \
     SudokuGrid.cpp \
     SudokuMove.cpp \
-    utils/Tokenizer.cpp
+    utils/Tokenizer.cpp \
+    widgets/SudokuCellWidget.cpp
 
 HEADERS  += mainwindow.h \
     SudokuCell.h \
     SudokuGrid.h \
     SudokuMove.h \
-    utils/Tokenizer.h
+    utils/Tokenizer.h \
+    widgets/SudokuCellWidget.h
 
 FORMS    += mainwindow.ui
 
