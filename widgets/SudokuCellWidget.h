@@ -3,12 +3,15 @@
 #include <QLabel>
 #include "SudokuGrid.h"
 #include <QWidget>
+#include <QFont>
 class SudokuCellWidget : public QLabel{
 
 Q_OBJECT
 
 private:
     SudokuGrid *gridPointer;
+    QFont font;
+
 
 public:
      ~SudokuCellWidget();
