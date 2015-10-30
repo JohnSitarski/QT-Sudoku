@@ -5,6 +5,7 @@
 #include "utils/qssgenerator.h"
 #include <QWidget>
 #include <QFont>
+
 class SudokuCellWidget : public QLabel{
 
 Q_OBJECT
@@ -13,12 +14,13 @@ private:
     SudokuGrid *gridPointer;
     QFont font;
     QSSGenerator generator =  QSSGenerator("QLabel");
+    int index;
 
 
 public:
      ~SudokuCellWidget();
 
-    SudokuCellWidget(SudokuGrid *gridPointer);
+    SudokuCellWidget(int index,SudokuGrid *gridPointer);
     void setBackgroundColor(std::string colorname) ;
     void setBorder(std::string colorname);
     void setBold(bool bold);
