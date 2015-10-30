@@ -10,10 +10,23 @@ SudokuCellWidget::SudokuCellWidget(SudokuGrid *gridPointer){
 }
 
 
+
+
 void SudokuCellWidget::setBackgroundColor(std::string colorname) {
-    this->setStyleSheet("QLabel { background-color : "+QString::fromStdString(colorname)+";border:2px solid grey;}");
+    generator.setBackgroundColor(QString::fromStdString(colorname));
+    this->setStyleSheet(generator.generateStyleSheet());
+
 }
+
+
+
 SudokuCellWidget::~SudokuCellWidget(){
+
+}
+
+void SudokuCellWidget::setBorder(std::string border){
+    generator.setBorderComponent(QString::fromStdString(border));
+    this->setStyleSheet(generator.generateStyleSheet());
 
 }
 

@@ -78,8 +78,8 @@ SudokuCell &SudokuGrid::getCell(int index) const {
 
 int *SudokuGrid::getCellLocation(int index) const {
     static int point[2];
-    point[0] = index % 9;
-    point[1] = index / 9;
+    point[1] = index % 9;
+    point[0] = index / 9;
     return point;
 }
 

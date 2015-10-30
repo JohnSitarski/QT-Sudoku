@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     SudokuGrid.cpp \
     SudokuMove.cpp \
     utils/Tokenizer.cpp \
-    widgets/SudokuCellWidget.cpp
+    widgets/SudokuCellWidget.cpp \
+    utils/qssgenerator.cpp
 
 HEADERS  += mainwindow.h \
     SudokuCell.h \
     SudokuGrid.h \
     SudokuMove.h \
     utils/Tokenizer.h \
-    widgets/SudokuCellWidget.h
+    widgets/SudokuCellWidget.h \
+    utils/qssgenerator.h
 
 FORMS    += mainwindow.ui
 
