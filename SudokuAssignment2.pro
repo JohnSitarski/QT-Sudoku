@@ -13,21 +13,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     SudokuCell.cpp \
     SudokuGrid.cpp \
     SudokuMove.cpp \
     utils/Tokenizer.cpp \
     widgets/SudokuCellWidget.cpp \
-    utils/qssgenerator.cpp
+    utils/qssgenerator.cpp \
+    widgets/GameScreen.cpp \
+    widgets/GameMenu.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     SudokuCell.h \
     SudokuGrid.h \
     SudokuMove.h \
     utils/Tokenizer.h \
     widgets/SudokuCellWidget.h \
-    utils/qssgenerator.h
+    utils/qssgenerator.h \
+    widgets/GameScreen.h \
+    widgets/GameMenu.h
 
 FORMS    += mainwindow.ui
 
