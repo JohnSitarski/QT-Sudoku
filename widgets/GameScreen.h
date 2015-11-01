@@ -11,7 +11,7 @@ class GameScreen : QWidget
 
 private:
     QStackedLayout *stackedWidget = new QStackedLayout;
-    GameMenu* menu  = new GameMenu();
+
     QWidget* makeGridWidget(std::string importKey);
 
 public:
