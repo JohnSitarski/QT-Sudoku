@@ -12,7 +12,7 @@ QString QSSGenerator::generateStyleSheet(){
 
             (borderComponent != ""? borderComponent+";":"" )
 
-            +"}";
+            + (foreground.length()>0 ?"color:"+ foreground :"")+"}";
 }
 
 void QSSGenerator::setBackgroundColor(QString color){
@@ -21,6 +21,10 @@ this->backgroundColor = color;
 
 void QSSGenerator::setBorderComponent(QString border){
 this->borderComponent= border;
+}
+
+void QSSGenerator::setForeground(QString color){
+   this->foreground= color;
 }
 
 QString QSSGenerator::getBorderComponent(){

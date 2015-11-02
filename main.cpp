@@ -78,20 +78,20 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QWidget *window = new QWidget;
     window->setGeometry(200,200,500,500);
-   // window->setStyleSheet("QWidget{background-color:'black';}");
+//   window->setStyleSheet("QWidget{background-color:'black';}");
     window->setWindowTitle("Sudoku Game");
     QGridLayout *gridLayout = new QGridLayout;
     gridLayout->setHorizontalSpacing(1);
     gridLayout->setVerticalSpacing(1);
-    GameScreen gs;
-    gridLayout->addWidget(new GameMenu());
- //   gridLayout->addWidget(new GameMenu());
+
+   // gridLayout->addWidget(new GameMenu(new GameScreen()));
+
     for (int i  = 0;i<81;i++){
         int* location = grid.getCellLocation(i);
         SudokuCellWidget *label = new SudokuCellWidget(i,&grid);
        label->setNum(i);
         label->setBackgroundColor("white");
-   // gridLayout->addWidget(label,location[0],location[1]);
+    gridLayout->addWidget(label,location[0],location[1]);
 
         std::map<int,std::string>::iterator it;
         it = borderMap.find(i);

@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <QStackedLayout>
 #include <QGridLayout>
-#include "widgets/GameMenu.h"
+
 class GameScreen : QWidget
 {
 
@@ -12,14 +12,18 @@ class GameScreen : QWidget
 private:
     QStackedLayout *stackedWidget = new QStackedLayout;
 
-    QWidget* makeGridWidget(std::string importKey);
+    void importGrid(std::string importKey);
 
+    void showMenu();
+    void showGame();
 public:
     ~GameScreen(){
 
     }
 
     GameScreen();
+
+
 
 };
 

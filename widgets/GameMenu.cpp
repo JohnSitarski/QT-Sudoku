@@ -1,8 +1,9 @@
 #include "GameMenu.h"
 
-GameMenu::GameMenu()
+GameMenu::GameMenu(GameScreen* gs)
 {
 
+    this->screenPointer = screenPointer;
     QVBoxLayout *layout = new QVBoxLayout;
     QTextEdit* puzzleTextField = new QTextEdit();
 

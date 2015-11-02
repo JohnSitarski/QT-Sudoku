@@ -9,6 +9,7 @@ private:
     QString componentName = "";
     QString backgroundColor = "";
     QString borderComponent = "";
+    QString foreground = "";
 
 public:
     QSSGenerator(QString componentName);
@@ -16,7 +17,7 @@ public:
     QString generateStyleSheet();
 
     void setBackgroundColor(QString color);
-
+    void setForeground(QString color);
     void setBorderComponent(QString border);
     QString getBorderComponent();
 };

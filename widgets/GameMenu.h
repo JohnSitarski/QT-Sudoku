@@ -16,12 +16,16 @@ private:
         QString filePath;
         QString fileFilter = "Text file (*.txt)";
         QPushButton* importButton = new QPushButton("Import Game",this);
-
+        GameScreen* screenPointer;
 public:
+
     ~GameMenu(){
 
     }
-        GameMenu();
+
+
+    GameMenu(GameScreen* screenPointer);
+
 
 
 
