@@ -8,6 +8,7 @@
 #include <QFont>
 #include <QFileDialog>
 #include "widgets/GameScreen.h"
+#include <QTextStream>
 
 class GameMenu : public QWidget
 {

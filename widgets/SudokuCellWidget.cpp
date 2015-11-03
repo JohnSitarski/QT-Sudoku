@@ -39,19 +39,46 @@ void SudokuCellWidget::setBold(bool bold){
 }
 
 void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
+    // generate dynamic menu
     QMenu rightMenu( this);
+    SudokuCell sc = gridPointer->getCell(index);
+    if (sc.getValue() !=0){
+        QAction* finalAction  = new QAction(sc.isFinal() ?"Make unfinal" :"Make final",this);
+        finalAction->connect(finalAction,SIGNAL(triggered()),this,SLOT(setFinal()));
+        rightMenu.addAction(finalAction);
+        QAction* clearAction = new QAction("Clear",this);
+        clearAction->connect(clearAction,SIGNAL(triggered()),this,SLOT(clearCell()));
+        rightMenu.addAction(clearAction);
+        rightMenu.addSeparator();
 
-    QAction action("Possible Value: 1", this);
-    connect(&action, SIGNAL(triggered()), this, SLOT(setValue(i)));
-    rightMenu.addAction(&action);
+    }
+    QMenu valueMenu("Possible Moves",this);
+    std::vector<int>  vector =  gridPointer->getPossibleValues(index);
+    for (int i = 0;i<vector.size();i++){
+        std::string string =  "Possible Value "+vector.at(i);
+        QAction* action = new QAction(QString::fromStdString(string), this);
+        action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
+        valueMenu.addAction(action);
+    }
+    rightMenu.addMenu(&valueMenu);
 
     rightMenu.exec(mapToGlobal(pos));
 }
 
-void SudokuCellWidget::setValue(int value ){
-    this->setNum(value);
-    this->gridPointer->getCell(index).setValue(value);
-}
-void SudokuCellWidget::setFinal(bool b){
+void SudokuCellWidget::setValue( ){
 
+    this->setNum(1);
+    this->gridPointer->getCell(index).setValue(1);
+}
+void SudokuCellWidget::setFinal(){
+    SudokuCell sc =  this->gridPointer->getCell(index);
+    bool change = !sc.isFinal();
+    this->gridPointer->getCell(index).setFinal(change);
+    setBold(change);
+}
+void SudokuCellWidget::clearCell(){
+    setBold(false);
+    this->setText("");
+    this->gridPointer->getCell(index).setFinal(false);
+    this->gridPointer->getCell(index).setValue(0);
 }

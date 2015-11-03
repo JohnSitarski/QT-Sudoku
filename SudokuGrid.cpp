@@ -93,8 +93,6 @@ void SudokuGrid::importGrid(std::string grid) {
         const int number = j >= 48 ? j - 48 : j;
         setCell(i, new SudokuCell(number, final));
     }
-
-
 }
 
 std::vector<SudokuCell *> SudokuGrid::getSudokuSection(int sectionNumber) {

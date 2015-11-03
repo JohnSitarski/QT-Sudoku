@@ -31,8 +31,9 @@ public:
 
 public slots:
     void showRightClickMenu(const QPoint &pos );
-    void setValue(int value);
-    void setFinal(bool b);
+    void setValue();
+    void setFinal();
+    void clearCell();
 
 };
 

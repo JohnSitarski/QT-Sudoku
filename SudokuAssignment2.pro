@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     widgets/SudokuCellWidget.cpp \
     utils/qssgenerator.cpp \
     widgets/GameScreen.cpp \
-    widgets/GameMenu.cpp
+    widgets/GameMenu.cpp \
+    widgets/SudokuBoard.cpp
 
 HEADERS  += \
     SudokuCell.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     widgets/SudokuCellWidget.h \
     utils/qssgenerator.h \
     widgets/GameScreen.h \
-    widgets/GameMenu.h
+    widgets/GameMenu.h \
+    widgets/SudokuBoard.h
 
 FORMS    += mainwindow.ui
 
