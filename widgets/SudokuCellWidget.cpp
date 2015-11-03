@@ -69,10 +69,8 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
 void SudokuCellWidget::setValue( ){
     QAction *pAction = qobject_cast<QAction*>(sender());
     QString text  = pAction->text();
-    QTextStream cout(stdout);
-    cout << text << endl;
-
-    this->gridPointer->getCell(index).setValue(1);
+    int value =    text.split(" ")[2].toInt();
+    this->gridPointer->getCell(index).setValue(value);
     this->setNum(this->gridPointer->getCell(index).getValue());
 }
 void SudokuCellWidget::setFinal(){
