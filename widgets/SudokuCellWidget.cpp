@@ -55,20 +55,25 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
     QMenu valueMenu("Possible Moves",this);
     std::vector<int>  vector =  gridPointer->getPossibleValues(index);
     for (int i = 0;i<vector.size();i++){
-        std::string string =  "Possible Value "+vector.at(i);
+        std::stringstream  ss;
+        ss << "Possible Value " << vector.at(i) << std::endl;
+        std::string string =  ss.str();
         QAction* action = new QAction(QString::fromStdString(string), this);
         action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
         valueMenu.addAction(action);
     }
     rightMenu.addMenu(&valueMenu);
-
     rightMenu.exec(mapToGlobal(pos));
 }
 
 void SudokuCellWidget::setValue( ){
+    QAction *pAction = qobject_cast<QAction*>(sender());
+    QString text  = pAction->text();
+    QTextStream cout(stdout);
+    cout << text << endl;
 
-    this->setNum(1);
     this->gridPointer->getCell(index).setValue(1);
+    this->setNum(this->gridPointer->getCell(index).getValue());
 }
 void SudokuCellWidget::setFinal(){
     SudokuCell sc =  this->gridPointer->getCell(index);

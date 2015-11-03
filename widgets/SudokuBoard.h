@@ -19,7 +19,7 @@ private:
       SudokuGrid grid;
       QPushButton* saveButton =  new QPushButton("Save Puzzle");
       QPushButton* undoButton =  new QPushButton("Undo Last Move");
-
+      QPushButton* importPuzzleButton =  new QPushButton("Import Puzzle");
 public:
     explicit SudokuBoard(QWidget *parent = 0);
       void importGame(std::string gameString);

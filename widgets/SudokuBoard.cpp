@@ -60,7 +60,7 @@ SudokuBoard::SudokuBoard(QWidget *parent) :
     boardLayout->setVerticalSpacing(1);
 
     for (int i  = 0;i<81;i++){
-        int* location = grid.getCellLocation(i);
+      std::vector<int>  location = grid.getCellLocation(i);
         SudokuCellWidget *label = new SudokuCellWidget(i,&grid);
         if (grid.getCell(i).getValue() !=0){
             label->setNum(grid.getCell(i).getValue());
@@ -75,8 +75,10 @@ SudokuBoard::SudokuBoard(QWidget *parent) :
         }
     }
     QHBoxLayout*  hlayout = new QHBoxLayout();
-    hlayout->addWidget(undoButton);
+  hlayout->addWidget(this->importPuzzleButton);
     hlayout->addWidget(saveButton);
+
+        hlayout->addWidget(undoButton);
     layout.addLayout(hlayout);
     layout.addLayout(boardLayout);
 

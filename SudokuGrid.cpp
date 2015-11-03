@@ -9,32 +9,29 @@ std::vector<int> SudokuGrid::getPossibleValues(int index) {
     for (int i = 1; i < 10; i++) {
         vector.push_back(i);
     }
-    int *point = getCellLocation(index);
+  std::vector<int> point  = getCellLocation(index);
     std::vector<SudokuCell *> sectionCells = getSudokuSection(getSection(index));
     for (int i = 0; i < sectionCells.size(); i++) {
         if (std::find(vector.begin(), vector.end(), sectionCells.at(i)->getValue()) != vector.end()) {
-            int index = std::find(vector.begin(), vector.end(), sectionCells.at(i)->getValue()) - vector.begin();
-            std::swap(vector[index], vector.back());
-            vector.pop_back();
+            vector.erase(std::remove(vector.begin(),vector.end(),sectionCells.at(i)->getValue()),vector.end());
         }
     }
-
+    QTextStream cout(stdout);
+    cout << "Index: "<< index << endl;
+    cout << "Point: "<< point[0] << " , "<< point[1] << endl;
+    cout <<"-----------------------------------------" << endl;
     for (int x = 0; x < 9; x++) {
-        int value = getCell(getIndex(x, point[1])).getValue();
+        cout << "Point: "<<x << " , "<< point[0] << endl;
+        int value = getCell(getIndex(x, point[0])).getValue();
         if (std::find(vector.begin(), vector.end(), value) != vector.end()) {
-            int index = std::find(vector.begin(), vector.end(), value) - vector.begin();
-            std::swap(vector[index], vector.back());
-            vector.pop_back();
+            vector.erase(std::remove(vector.begin(),vector.end(),value),vector.end());
         }
     }
-
-    for (int x = 0; x < 9; x++) {
-        int value = getCell(getIndex(point[0], x)).getValue();
-        //std:: cout << getIndex(point[0],x) << " value:"<< value << std::endl;
+    cout <<"-----------------------------------------" << endl;
+    for (int y = 0; y < 9; y++) {
+        int value = getCell(getIndex(point[1], y)).getValue();
         if (std::find(vector.begin(), vector.end(), value) != vector.end()) {
-            int index = std::find(vector.begin(), vector.end(), value) - vector.begin();
-            std::swap(vector[index], vector.back());
-            vector.pop_back();
+            vector.erase(std::remove(vector.begin(),vector.end(),value),vector.end());
         }
     }
     return vector;
@@ -46,7 +43,7 @@ int SudokuGrid::getIndex(int x, int y) const {
 
 
 int SudokuGrid::getSection(int index) const {
-    int *location = getCellLocation(index);
+   std::vector<int> location = getCellLocation(index);
     int subdivX = location[0] / 3;
     int subdivY = location[1] / 3;
     int sectionIndex = subdivY * 3 + subdivX;
@@ -76,10 +73,12 @@ SudokuCell &SudokuGrid::getCell(int index) const {
     return *point;
 }
 
-int *SudokuGrid::getCellLocation(int index) const {
-    static int point[2];
-    point[1] = index % 9;
-    point[0] = index / 9;
+std::vector<int> SudokuGrid::getCellLocation(int index) const {
+    std::vector<int> point;
+    point.push_back(index / 9); // x
+    point.push_back( index % 9); // y
+
+
     return point;
 }
 
@@ -137,6 +136,6 @@ SudokuMove &SudokuGrid::popMove() {
 }
 
 void SudokuGrid::addSudokuMove(const SudokuMove &move) {
-//    moveVector.push(&move);
+    //    moveVector.push(&move);
 
 }

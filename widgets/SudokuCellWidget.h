@@ -9,6 +9,7 @@
 #include <QAction>
 #include <QContextMenuEvent>
 #include <QMenu>
+#include <sstream>
 class SudokuCellWidget : public QLabel{
 
     Q_OBJECT

@@ -35,7 +35,7 @@ public:
 
     QString getQtGridString() const;
 
-    int* getCellLocation(int index) const;
+    std::vector<int> getCellLocation(int index) const;
 
     void setCell(int index, SudokuCell* cell);
 
