@@ -19,6 +19,7 @@
 #include "widgets/GameScreen.h"
 #include <QTextStream>
 #include "widgets/QStateButton.h"
+#include <ostream>
 class SudokuBoard : public QWidget
 {
     Q_OBJECT
@@ -44,6 +45,7 @@ signals:
 public slots:
     void importGame();
     void saveGame();
+    void showSinglePossibleValues();
 
 
 };

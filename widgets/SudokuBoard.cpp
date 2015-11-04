@@ -5,6 +5,7 @@ SudokuBoard::SudokuBoard(QWidget *parent) :
 {
     this->importPuzzleButton->connect(importPuzzleButton,SIGNAL(clicked()),this,SLOT(importGame()));
     this->saveButton->connect(saveButton,SIGNAL(clicked()),this,SLOT(saveGame()));
+    this->saveButton->connect(hintButton,SIGNAL(clicked()),this,SLOT(showSinglePossibleValues()));
 
     std::string LEFT  = "border-left : 2px solid black; ",RIGHT = "border-right : 2px solid black; ",
 
@@ -90,7 +91,6 @@ void SudokuBoard::importGame(){
 
         }
         cout << QString::fromStdString(readIn) << endl;
-
         grid.importGrid(readIn);
         refreshCells();
     }
@@ -144,7 +144,37 @@ void SudokuBoard::refreshCells(){
         pointer->setBold(bo);
         pointer->updateGeometry();
     }
+}
 
+void SudokuBoard::showSinglePossibleValues(){
+    QStateButton* pointer = dynamic_cast<QStateButton*> (sender());
+    if (pointer->isSwitchedOn() == false){
+        for (int i = 0;i<81;i++){
+            if (grid.getCell(i).getValue() == 0){
+                SudokuCellWidget* pointer =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
+                pointer->setBackgroundColor("white");
+                pointer->setText("");
+            }
+
+        }
+    }else{
+        for (int i = 0;i<81;i++){
+            std::vector<int> vector =  grid.getPossibleValues(i);
+            if (grid.getCell(i).getValue() == 0){
+                SudokuCellWidget* pointer =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
+                if (vector.size() == 1 ){
+                    pointer->setBackgroundColor("green");
+                }else if (vector.size()>1){
+                    std::stringstream  ss;
+                    for (int i = 0;i<vector.size();i++){
+                        ss << vector.at(i);
+                    }
+                    pointer->setText(QString::fromStdString(ss.str()));
+                    pointer->setBackgroundColor("grey");
+                }
+            }
+        }
+    }
 }
 
 

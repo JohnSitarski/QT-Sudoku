@@ -16,18 +16,15 @@ std::vector<int> SudokuGrid::getPossibleValues(int index) {
             vector.erase(std::remove(vector.begin(),vector.end(),sectionCells.at(i)->getValue()),vector.end());
         }
     }
-    QTextStream cout(stdout);
-    cout << "Index: "<< index << endl;
-    cout << "Point: "<< point[0] << " , "<< point[1] << endl;
-    cout <<"-----------------------------------------" << endl;
+
     for (int x = 0; x < 9; x++) {
-        cout << "Point: "<<x << " , "<< point[0] << endl;
+
         int value = getCell(getIndex(x, point[0])).getValue();
         if (std::find(vector.begin(), vector.end(), value) != vector.end()) {
             vector.erase(std::remove(vector.begin(),vector.end(),value),vector.end());
         }
     }
-    cout <<"-----------------------------------------" << endl;
+
     for (int y = 0; y < 9; y++) {
         int value = getCell(getIndex(point[1], y)).getValue();
         if (std::find(vector.begin(), vector.end(), value) != vector.end()) {
