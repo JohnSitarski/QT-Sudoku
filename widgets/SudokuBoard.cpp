@@ -68,6 +68,7 @@ SudokuBoard::SudokuBoard(QWidget *parent) :
     hlayout->addWidget(saveButton);
 
     hlayout->addWidget(undoButton);
+    hlayout->addWidget(hintButton);
     layout.addLayout(hlayout);
     layout.addLayout(boardLayout);
     this->setLayout(&layout);

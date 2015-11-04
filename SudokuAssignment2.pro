@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     utils/Tokenizer.cpp \
     widgets/SudokuCellWidget.cpp \
     utils/qssgenerator.cpp \
-    widgets/SudokuBoard.cpp
+    widgets/SudokuBoard.cpp \
+    widgets/QStateButton.cpp
 
 HEADERS  += \
     SudokuCell.h \
@@ -28,7 +29,8 @@ HEADERS  += \
     utils/Tokenizer.h \
     widgets/SudokuCellWidget.h \
     utils/qssgenerator.h \
-    widgets/SudokuBoard.h
+    widgets/SudokuBoard.h \
+    widgets/QStateButton.h
 
 FORMS    += mainwindow.ui
 

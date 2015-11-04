@@ -66,7 +66,6 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
     }
 
 
-
     rightMenu.addMenu(&valueMenu);
     rightMenu.exec(mapToGlobal(pos));
 
@@ -77,20 +76,23 @@ void SudokuCellWidget::setValue( ){
     QString text  = pAction->text();
     int value =    text.split(" ")[2].toInt();
     this->gridPointer->getCell(index).setValue(value);
-    this->setNum(this->gridPointer->getCell(index).getValue());
+    this->setNum(this->gridPointer->getCell(index).getValue());   clearCellBackground();
 }
 void SudokuCellWidget::setFinal(){
     SudokuCell sc =  this->gridPointer->getCell(index);
     bool change = !sc.isFinal();
     this->gridPointer->getCell(index).setFinal(change);
     setBold(change);
-}
+    clearCellBackground();}
 void SudokuCellWidget::clearCell(){
     setBold(false);
     this->setText("");
     this->gridPointer->getCell(index).setFinal(false);
     this->gridPointer->getCell(index).setValue(0);
+    clearCellBackground();
 }
 void SudokuCellWidget::clearCellBackground(){
+    QTextStream cout(stdout);
     this->setBackgroundColor("white");
-}
+    cout << "set white"
+         <<endl;}

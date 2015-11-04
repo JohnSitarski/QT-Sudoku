@@ -18,6 +18,7 @@
 #include <QFileDialog>
 #include "widgets/GameScreen.h"
 #include <QTextStream>
+#include "widgets/QStateButton.h"
 class SudokuBoard : public QWidget
 {
     Q_OBJECT
@@ -28,6 +29,8 @@ private:
     QPushButton* saveButton =  new QPushButton("Save Puzzle");
     QPushButton* undoButton =  new QPushButton("Undo Last Move");
     QPushButton* importPuzzleButton =  new QPushButton("Import Puzzle");
+    QStateButton* hintButton = new QStateButton("Show hints");
+
     QString fileFilter = "Text file (*.txt)";
     QGridLayout* boardLayout = new QGridLayout();
 public:
