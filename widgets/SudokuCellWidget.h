@@ -35,6 +35,7 @@ public slots:
     void setValue();
     void setFinal();
     void clearCell();
+    void clearCellBackground();
 
 };
 

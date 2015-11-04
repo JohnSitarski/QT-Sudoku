@@ -3,6 +3,9 @@
 SudokuBoard::SudokuBoard(QWidget *parent) :
     QWidget(parent)
 {
+    this->importPuzzleButton->connect(importPuzzleButton,SIGNAL(clicked()),this,SLOT(importGame()));
+    this->saveButton->connect(saveButton,SIGNAL(clicked()),this,SLOT(saveGame()));
+
     std::string LEFT  = "border-left : 2px solid black; ",RIGHT = "border-right : 2px solid black; ",
 
             BOTTOM="border-bottom : 2px solid black; ",TOP="border-top : 2px solid black; ";
@@ -55,40 +58,93 @@ SudokuBoard::SudokuBoard(QWidget *parent) :
             borderMap.at(leftBorders[index]) = border;
         }
     }
-    QGridLayout* boardLayout = new QGridLayout();
+
     boardLayout->setHorizontalSpacing(1);
     boardLayout->setVerticalSpacing(1);
 
+    addCells();
+    QHBoxLayout*  hlayout = new QHBoxLayout();
+    hlayout->addWidget(this->importPuzzleButton);
+    hlayout->addWidget(saveButton);
+
+    hlayout->addWidget(undoButton);
+    layout.addLayout(hlayout);
+    layout.addLayout(boardLayout);
+    this->setLayout(&layout);
+}
+void SudokuBoard::importGame(){
+
+    QString filePath = QFileDialog::getOpenFileName(this,tr("Select Saved Game"),QDir::homePath(),fileFilter);
+    if (filePath.length()>0){
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return;
+
+        QTextStream cout(stdout);
+        QTextStream in(&file);
+        std::string readIn ;
+        while(!in.atEnd()){
+            QString line =  in.readAll();
+            readIn += line.toUtf8().constData();
+
+        }
+        cout << QString::fromStdString(readIn) << endl;
+
+        grid.importGrid(readIn);
+        refreshCells();
+    }
+
+}
+
+
+void SudokuBoard::saveGame(){
+    QString saveFile =  QFileDialog::getSaveFileName(this,"Save File",QDir::homePath(),fileFilter);
+    if (saveFile.length() >0 && !saveFile.endsWith(".txt")){
+        saveFile.append(".txt");
+    }
+    QTextStream cout(stdout);
+    if (saveFile.length()>0){
+        QFile file (saveFile);
+        if (file.open(QIODevice::ReadWrite)){
+            QTextStream stream(&file);
+            stream << this->grid.getQtGridString() << endl;
+        }
+        file.close();
+    }
+}
+void SudokuBoard::addCells(){
     for (int i  = 0;i<81;i++){
-      std::vector<int>  location = grid.getCellLocation(i);
+        std::vector<int>  location = grid.getCellLocation(i);
         SudokuCellWidget *label = new SudokuCellWidget(i,&grid);
         if (grid.getCell(i).getValue() !=0){
             label->setNum(grid.getCell(i).getValue());
         }
         label->setBackgroundColor("white");
         boardLayout->addWidget(label,location[0],location[1]);
-
         std::map<int,std::string>::iterator it;
         it = borderMap.find(i);
         if (it != borderMap.end()){
             label->setBorder(borderMap.at(i));
         }
     }
-    QHBoxLayout*  hlayout = new QHBoxLayout();
-  hlayout->addWidget(this->importPuzzleButton);
-    hlayout->addWidget(saveButton);
 
-        hlayout->addWidget(undoButton);
-    layout.addLayout(hlayout);
-    layout.addLayout(boardLayout);
-
-
-
-    this->setLayout(&layout);
 }
-void SudokuBoard::importGame(std::string gameString){
-    grid.importGrid(gameString);
-    for (int i = 0;i<81;i++){
 
+void SudokuBoard::refreshCells(){
+    for (int i  = 0;i<81;i++){
+        bool bo = grid.getCell(i).isFinal();
+        const   int value = grid.getCell(i).getValue();
+        SudokuCellWidget* pointer =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
+        if (value == 0){
+            pointer->setText("");
+        }else{
+            pointer->setNum(value);
+        }
+        pointer->setBold(bo);
+        pointer->updateGeometry();
     }
+
 }
+
+
+

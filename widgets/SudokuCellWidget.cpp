@@ -40,8 +40,10 @@ void SudokuCellWidget::setBold(bool bold){
 
 void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
     // generate dynamic menu
+
     QMenu rightMenu( this);
     SudokuCell sc = gridPointer->getCell(index);
+    this->setBackgroundColor("green");
     if (sc.getValue() !=0){
         QAction* finalAction  = new QAction(sc.isFinal() ?"Make unfinal" :"Make final",this);
         finalAction->connect(finalAction,SIGNAL(triggered()),this,SLOT(setFinal()));
@@ -62,8 +64,12 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
         action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
         valueMenu.addAction(action);
     }
+
+
+
     rightMenu.addMenu(&valueMenu);
     rightMenu.exec(mapToGlobal(pos));
+
 }
 
 void SudokuCellWidget::setValue( ){
@@ -84,4 +90,7 @@ void SudokuCellWidget::clearCell(){
     this->setText("");
     this->gridPointer->getCell(index).setFinal(false);
     this->gridPointer->getCell(index).setValue(0);
+}
+void SudokuCellWidget::clearCellBackground(){
+    this->setBackgroundColor("white");
 }

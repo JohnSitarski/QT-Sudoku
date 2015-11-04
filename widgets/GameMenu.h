@@ -15,7 +15,7 @@ class GameMenu : public QWidget
     Q_OBJECT
 private:
         QString filePath;
-        QString fileFilter = "Text file (*.txt)";
+
         QPushButton* importButton = new QPushButton("Import Game",this);
         GameScreen* screenPointer;
 public:

@@ -14,20 +14,5 @@ GameMenu::GameMenu(GameScreen* gs)
 }
 
 void GameMenu::onImportClicked(){
-    filePath = QFileDialog::getOpenFileName(this,tr("Select Saved Game"),QDir::homePath(),fileFilter);
-    if (filePath.length()>0){
-        QFile file(filePath);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            return;
 
-        QTextStream in(&file);
-         std::string readIn ;
-        for (int i = 0;i<2;i++) {
-            QString line = in.readLine();
-
-            std::string readIn = line.toUtf8().constData();
-        }
-
-        //screenPointer->importGrid(readIn);
-    }
 }

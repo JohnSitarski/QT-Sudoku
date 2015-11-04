@@ -87,9 +87,13 @@ void SudokuGrid::importGrid(std::string grid) {
     std::vector<std::string> vector = tokenizer.getTokens();
     for (int i = 0; i < 81; i++) {
         const std::string element = vector[i];
-        const bool final = element.length() > 1;
+         bool final = element.length() > 1;
         const int j = (element.at(0));
-        const int number = j >= 48 ? j - 48 : j;
+         int number = j >= 48 ? j - 48 : j;
+        if (number >9){
+            number = 0;
+            final =  false;
+        }
         setCell(i, new SudokuCell(number, final));
     }
 }
