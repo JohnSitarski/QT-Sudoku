@@ -14,6 +14,10 @@
 #include <QVBoxLayout>
 #include <QTextEdit>
 
+
+#include <QStringList>
+#include "utils/Tokenizer.h"
+
 #include <QFont>
 #include <QFileDialog>
 #include "widgets/GameScreen.h"
@@ -30,11 +34,12 @@ private:
     QPushButton* saveButton =  new QPushButton("Save Puzzle");
     QPushButton* undoButton =  new QPushButton("Undo Last Move");
     QPushButton* importPuzzleButton =  new QPushButton("Import Puzzle");
-    QStateButton* hintButton = new QStateButton("Show hints");
+
 
     QString fileFilter = "Text file (*.txt)";
 
 public:
+    QStateButton* hintButton = new QStateButton("Show hints");
     QGridLayout* boardLayout = new QGridLayout();
     SudokuGrid grid;
     explicit SudokuBoard(QWidget *parent = 0);

@@ -1,6 +1,5 @@
 #include "SudokuBoard.h"
-#include <QStringList>
-#include "utils/Tokenizer.h"
+
 SudokuBoard::SudokuBoard(QWidget *parent) :
     QWidget(parent)
 {
@@ -92,20 +91,22 @@ void SudokuBoard::importGame(){
         QStringList  list = line.split("\n");
         grid.moveVector.clear();
         if (list.length()>9){
-            QString moveLine = list.at(9);
-            QStringList moveList = moveLine.split(" ");
-            for (int i = 0 ;i<moveList.size();i++){
-                QStringList moveListOrder = moveList.at(i).split(",");
-                if (moveListOrder.size()>3){
-                    int index = moveListOrder.at(0).toInt();
-                    int newValue = moveListOrder.at(1).toInt();
-                    int oldValueint = moveListOrder.at(2).toInt();
-                    bool newBool = moveListOrder.at(3).toInt() >0 ? true : false;
-                    bool oldBool  =  moveListOrder.at(4).toInt()>0 ? true : false;
-                    cout <<  newBool << endl;
-                    grid.addSudokuMove(new SudokuMove(index,oldValueint,newValue,oldBool,newBool));
-                }
+            for (int i = 9 ;i<list.length();i++){
+                QString moveLine = list.at(i);
+                QStringList moveList = moveLine.split(" ");
+                for (int i = 0 ;i<moveList.size();i++){
+                    QStringList moveListOrder = moveList.at(i).split(",");
+                    if (moveListOrder.size()>3){
+                        int index = moveListOrder.at(0).toInt();
+                        int newValue = moveListOrder.at(1).toInt();
+                        int oldValueint = moveListOrder.at(2).toInt();
+                        bool newBool = moveListOrder.at(3).toInt() >0 ? true : false;
+                        bool oldBool  =  moveListOrder.at(4).toInt()>0 ? true : false;
+                        cout <<  newBool << endl;
+                        grid.addSudokuMove(new SudokuMove(index,oldValueint,newValue,oldBool,newBool));
+                    }
 
+                }
             }
         }
 
@@ -136,7 +137,7 @@ void SudokuBoard::saveGame(){
 void SudokuBoard::addCells(){
     for (int i  = 0;i<81;i++){
         std::vector<int>  location = grid.getCellLocation(i);
-        SudokuCellWidget *label = new SudokuCellWidget(i,&grid);
+        SudokuCellWidget *label = new SudokuCellWidget(this,i,&grid);
         if (grid.getCell(i).getValue() !=0){
             label->setNum(grid.getCell(i).getValue());
         }
@@ -194,8 +195,8 @@ void SudokuBoard::updateHint(){
                 pointer1->setBackgroundColor("green");
             }else if (vector.size()>1){
                 std::stringstream  ss;
-                for (int j = 0;j<vector.size();j++){
 
+                for (int j = 0;j<vector.size();j++){
                     ss << vector.at(j);
                     if (j != (vector.size()-1)){
                         ss << ",";
@@ -204,6 +205,7 @@ void SudokuBoard::updateHint(){
                         ss << "\n";
                     }
                 }
+
                 pointer1->font.setPixelSize(12);
                 pointer1->setFont(pointer1->font);
                 pointer1->setText(QString::fromStdString(ss.str()));
@@ -213,10 +215,9 @@ void SudokuBoard::updateHint(){
     }
 }
 
-    void SudokuBoard::undo(){
+void SudokuBoard::undo(){
     if (grid.moveVector.size()>0){
         SudokuMove* move = grid.popMove();
-
         QTextStream cout(stdout);
         cout << QString::fromStdString(move->toString()) << endl;
         grid.getCell(move->getIndex()).setFinal(move->getOldFinalValue());

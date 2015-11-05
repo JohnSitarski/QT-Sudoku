@@ -11,6 +11,9 @@
 #include <QMenu>
 #include <sstream>
 #include "widgets/SudokuBoard.h"
+
+class SudokuBoard;
+
 class SudokuCellWidget : public QLabel{
 
     Q_OBJECT
@@ -26,7 +29,13 @@ public:
     QFont font;
 
     ~SudokuCellWidget();
-    SudokuCellWidget(int index,SudokuGrid *gridPointer);
+
+    SudokuBoard* board;
+
+
+    SudokuCellWidget( int index,SudokuGrid *gridPointer);
+
+    SudokuCellWidget(SudokuBoard* board, int index,SudokuGrid *gridPointer);
     void setBackgroundColor(std::string colorname) ;
     void setBorder(std::string colorname);
     void setBold(bool bold);

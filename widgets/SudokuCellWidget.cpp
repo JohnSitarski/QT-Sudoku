@@ -1,6 +1,7 @@
 #include "SudokuCellWidget.h"
 
 
+
 SudokuCellWidget::SudokuCellWidget(int index, SudokuGrid *gridPointer){
     //this->board = board;
     this->gridPointer = gridPointer;
@@ -14,6 +15,23 @@ SudokuCellWidget::SudokuCellWidget(int index, SudokuGrid *gridPointer){
             this, SLOT(showRightClickMenu(const QPoint &)));
     menuGenerator.setForeground("white");
 }
+
+
+
+SudokuCellWidget::SudokuCellWidget(SudokuBoard *board,int index, SudokuGrid *gridPointer){
+    this->board = board;
+    this->gridPointer = gridPointer;
+    this->setAlignment(Qt::AlignCenter);
+    font = this->font;
+    font.setPointSize(12);
+    this->setFont(font);
+    this->index = index;
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(showRightClickMenu(const QPoint &)));
+    menuGenerator.setForeground("white");
+}
+
 
 
 
@@ -54,6 +72,7 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
         rightMenu.addSeparator();
 
     }
+   // QMenu insertMenu("Insert Value",this);
     QMenu valueMenu("Possible Moves",this);
     std::vector<int>  vector =  gridPointer->getPossibleValues(index);
     for (int i = 0;i<vector.size();i++){
@@ -64,6 +83,18 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
         action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
         valueMenu.addAction(action);
     }
+
+  //  for (int i = 1;i<10;i++){
+    //    std::stringstream  ss;
+      //  ss << "Insert Value " << vector.at(i) << std::endl;
+      //  std::string string =  ss.str();
+      //  QAction* action = new QAction(QString::fromStdString(string), this);
+        //action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
+       // insertMenu.addAction(action);
+  //  }
+
+    //rightMenu.addMenu(&insertMenu);
+   // rightMenu.addSeparator();
     rightMenu.addMenu(&valueMenu);
     rightMenu.exec(mapToGlobal(pos));
 
@@ -79,6 +110,11 @@ void SudokuCellWidget::setValue( ){
     this->gridPointer->getCell(index).setValue(value);
     this->setNum(this->gridPointer->getCell(index).getValue());
     clearCellBackground();
+    if (this->board->hintButton->isSwitchedOn()){
+        this->board->updateHint();
+    }else{
+        this->board->refreshCells();
+    }
 }
 void SudokuCellWidget::setFinal(){
 
@@ -88,6 +124,7 @@ void SudokuCellWidget::setFinal(){
     this->gridPointer->getCell(index).setFinal(change);
     setBold(change);
     clearCellBackground();
+
 }
 void SudokuCellWidget::clearCell(){
     setBold(false);
