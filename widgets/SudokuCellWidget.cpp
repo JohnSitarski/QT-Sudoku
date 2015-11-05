@@ -2,10 +2,11 @@
 
 
 SudokuCellWidget::SudokuCellWidget(int index, SudokuGrid *gridPointer){
+    //this->board = board;
     this->gridPointer = gridPointer;
     this->setAlignment(Qt::AlignCenter);
     font = this->font;
-    font.setPointSize(18);
+    font.setPointSize(12);
     this->setFont(font);
     this->index = index;
     this->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -43,7 +44,6 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
 
     QMenu rightMenu( this);
     SudokuCell sc = gridPointer->getCell(index);
-    this->setBackgroundColor("green");
     if (sc.getValue() !=0){
         QAction* finalAction  = new QAction(sc.isFinal() ?"Make unfinal" :"Make final",this);
         finalAction->connect(finalAction,SIGNAL(triggered()),this,SLOT(setFinal()));
@@ -64,8 +64,6 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
         action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
         valueMenu.addAction(action);
     }
-
-
     rightMenu.addMenu(&valueMenu);
     rightMenu.exec(mapToGlobal(pos));
 
@@ -75,15 +73,22 @@ void SudokuCellWidget::setValue( ){
     QAction *pAction = qobject_cast<QAction*>(sender());
     QString text  = pAction->text();
     int value =    text.split(" ")[2].toInt();
+    int oldValue = gridPointer->getCell(index).getValue();
+    bool b = gridPointer->getCell(index).isFinal();
+    gridPointer->addSudokuMove(new SudokuMove(index,oldValue,value,b,b));
     this->gridPointer->getCell(index).setValue(value);
-    this->setNum(this->gridPointer->getCell(index).getValue());   clearCellBackground();
+    this->setNum(this->gridPointer->getCell(index).getValue());
+    clearCellBackground();
 }
 void SudokuCellWidget::setFinal(){
+
     SudokuCell sc =  this->gridPointer->getCell(index);
     bool change = !sc.isFinal();
+    gridPointer->addSudokuMove(new SudokuMove(index,sc.getValue(),sc.getValue(),!change,change));
     this->gridPointer->getCell(index).setFinal(change);
     setBold(change);
-    clearCellBackground();}
+    clearCellBackground();
+}
 void SudokuCellWidget::clearCell(){
     setBold(false);
     this->setText("");
@@ -92,7 +97,6 @@ void SudokuCellWidget::clearCell(){
     clearCellBackground();
 }
 void SudokuCellWidget::clearCellBackground(){
-    QTextStream cout(stdout);
+    this->updateGeometry();
     this->setBackgroundColor("white");
-    cout << "set white"
-         <<endl;}
+}

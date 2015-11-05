@@ -5,8 +5,8 @@ SudokuBoard::SudokuBoard(QWidget *parent) :
 {
     this->importPuzzleButton->connect(importPuzzleButton,SIGNAL(clicked()),this,SLOT(importGame()));
     this->saveButton->connect(saveButton,SIGNAL(clicked()),this,SLOT(saveGame()));
-    this->saveButton->connect(hintButton,SIGNAL(clicked()),this,SLOT(showSinglePossibleValues()));
-
+    this->hintButton->connect(hintButton,SIGNAL(clicked()),this,SLOT(showSinglePossibleValues()));
+    this->undoButton->connect(undoButton,SIGNAL(clicked()),this,SLOT(undo()));
     std::string LEFT  = "border-left : 2px solid black; ",RIGHT = "border-right : 2px solid black; ",
 
             BOTTOM="border-bottom : 2px solid black; ",TOP="border-top : 2px solid black; ";
@@ -88,7 +88,7 @@ void SudokuBoard::importGame(){
         while(!in.atEnd()){
             QString line =  in.readAll();
             readIn += line.toUtf8().constData();
-
+            cout << line.split("\n")[1] << endl;
         }
         cout << QString::fromStdString(readIn) << endl;
         grid.importGrid(readIn);
@@ -109,6 +109,7 @@ void SudokuBoard::saveGame(){
         if (file.open(QIODevice::ReadWrite)){
             QTextStream stream(&file);
             stream << this->grid.getQtGridString() << endl;
+            stream << this->grid.getQtMoveString() << endl;
         }
         file.close();
     }
@@ -143,6 +144,8 @@ void SudokuBoard::refreshCells(){
         }
         pointer->setBold(bo);
         pointer->updateGeometry();
+
+        pointer->setBackgroundColor("white");
     }
 }
 
@@ -150,32 +153,59 @@ void SudokuBoard::showSinglePossibleValues(){
     QStateButton* pointer = dynamic_cast<QStateButton*> (sender());
     if (pointer->isSwitchedOn() == false){
         for (int i = 0;i<81;i++){
+            SudokuCellWidget* pointer1 =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
+            pointer1->font.setPixelSize(12);
+            pointer1->setFont(pointer1->font);
             if (grid.getCell(i).getValue() == 0){
-                SudokuCellWidget* pointer =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
-                pointer->setBackgroundColor("white");
-                pointer->setText("");
+                pointer1->setBackgroundColor("white");
+                pointer1->setText("");
             }
 
         }
     }else{
-        for (int i = 0;i<81;i++){
-            std::vector<int> vector =  grid.getPossibleValues(i);
-            if (grid.getCell(i).getValue() == 0){
-                SudokuCellWidget* pointer =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
-                if (vector.size() == 1 ){
-                    pointer->setBackgroundColor("green");
-                }else if (vector.size()>1){
-                    std::stringstream  ss;
-                    for (int i = 0;i<vector.size();i++){
-                        ss << vector.at(i);
+        updateHint();
+    }
+}
+ void SudokuBoard::updateHint(){
+    for (int i = 0;i<81;i++){
+        std::vector<int> vector = grid.getPossibleValues(i);
+        if (grid.getCell(i).getValue() == 0){
+            SudokuCellWidget* pointer1 =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
+            if (vector.size() == 1 ){
+                pointer1->setBackgroundColor("green");
+            }else if (vector.size()>1){
+                std::stringstream  ss;
+                for (int j = 0;j<vector.size();j++){
+
+                    ss << vector.at(j);
+                    if (j != (vector.size()-1)){
+                        ss << ",";
                     }
-                    pointer->setText(QString::fromStdString(ss.str()));
-                    pointer->setBackgroundColor("grey");
+                    if (j %3 == 0){
+                        ss << "\n";
+                    }
                 }
+                pointer1->font.setPixelSize(12);
+                pointer1->setFont(pointer1->font);
+                pointer1->setText(QString::fromStdString(ss.str()));
+                pointer1->setBackgroundColor("grey");
             }
         }
     }
 }
 
+void SudokuBoard::undo(){
+    if (grid.moveVector.size()>0){
+        SudokuMove* move = grid.popMove();
+        grid.getCell(move->getIndex()).setFinal(move->getOldValue());
+        grid.getCell(move->getIndex()).setValue(move->getOldValue());
+        if (this->hintButton->isSwitchedOn() == false){
+        this->refreshCells();
+        }else{
+            updateHint();
+        }
+    }
+
+}
 
 

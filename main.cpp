@@ -17,11 +17,6 @@ int main(int argc, char *argv[])
 
     QTextStream cout(stdout);
 
-
-
-
-
-
     SudokuGrid grid;
 
     cout << grid.getQtGridString()<< endl;

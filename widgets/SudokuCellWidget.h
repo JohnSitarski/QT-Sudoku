@@ -10,20 +10,22 @@
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <sstream>
+#include "widgets/SudokuBoard.h"
 class SudokuCellWidget : public QLabel{
 
     Q_OBJECT
 
 private:
     SudokuGrid *gridPointer;
-    QFont font;
+
     QSSGenerator generator =  QSSGenerator("QLabel"),menuGenerator = QSSGenerator("QMenu");
     int index;
 
 
 public:
-    ~SudokuCellWidget();
+    QFont font;
 
+    ~SudokuCellWidget();
     SudokuCellWidget(int index,SudokuGrid *gridPointer);
     void setBackgroundColor(std::string colorname) ;
     void setBorder(std::string colorname);

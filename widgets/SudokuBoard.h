@@ -26,19 +26,21 @@ class SudokuBoard : public QWidget
 private:
     std::map<int,std::string> borderMap;
     QVBoxLayout layout;
-    SudokuGrid grid;
+
     QPushButton* saveButton =  new QPushButton("Save Puzzle");
     QPushButton* undoButton =  new QPushButton("Undo Last Move");
     QPushButton* importPuzzleButton =  new QPushButton("Import Puzzle");
     QStateButton* hintButton = new QStateButton("Show hints");
 
     QString fileFilter = "Text file (*.txt)";
-    QGridLayout* boardLayout = new QGridLayout();
+
 public:
+    QGridLayout* boardLayout = new QGridLayout();
+    SudokuGrid grid;
     explicit SudokuBoard(QWidget *parent = 0);
     void refreshCells();
     void addCells();
-
+    void updateHint();
 signals:
 
 
@@ -46,6 +48,7 @@ public slots:
     void importGame();
     void saveGame();
     void showSinglePossibleValues();
+    void undo();
 
 
 };

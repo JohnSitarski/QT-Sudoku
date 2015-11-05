@@ -10,10 +10,11 @@
 #include <algorithm>
 #include <iostream>
 #include <QString>
+#include <vector>
 class SudokuGrid{
 private:
     SudokuCell* cellArray[81] ;
-    std::stack<SudokuMove*> moveVector;
+
     // list of cells
 
 
@@ -21,6 +22,7 @@ private:
 
 
 public:
+    std::vector<SudokuMove*> moveVector;
     int getSection(int index) const;
 
     std::vector<int> getPossibleValues(int index) ;
@@ -34,6 +36,7 @@ public:
     std::string getGridString() const;
 
     QString getQtGridString() const;
+    QString getQtMoveString() const;
 
     std::vector<int> getCellLocation(int index) const;
 
@@ -48,11 +51,11 @@ public:
 
     int getIndex(int x, int y) const;
 
-    SudokuMove& popMove();
+    SudokuMove* popMove();
 
-    void addSudokuMove(const SudokuMove& move);
+    void addSudokuMove( SudokuMove* move);
 
-   std::vector<SudokuCell*> getSudokuSection(int sectionNumber);
+    std::vector<SudokuCell*> getSudokuSection(int sectionNumber);
 
 
 };

@@ -1,6 +1,6 @@
 
 #include "SudokuMove.h"
-
+#include "ostream"
 SudokuMove::SudokuMove(const int index, const int oldValue, const int newValue, const bool oldFinalValue,
                        const bool newFinalValue) {
 
@@ -32,5 +32,7 @@ bool SudokuMove::getOldFinalValue() const {
 }
 
 std::string SudokuMove::toString() const {
-
+   std::stringstream stream;
+   stream << index << "," << newValue << "," << oldValue << "," << newFinalValue << "," << oldFinalValue;
+   return stream.str();
 }

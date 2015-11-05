@@ -1,6 +1,6 @@
 #include "SudokuGrid.h"
 #include "utils/Tokenizer.h"
-
+#include "ostream"
 
 
 
@@ -9,7 +9,7 @@ std::vector<int> SudokuGrid::getPossibleValues(int index) {
     for (int i = 1; i < 10; i++) {
         vector.push_back(i);
     }
-  std::vector<int> point  = getCellLocation(index);
+    std::vector<int> point  = getCellLocation(index);
     std::vector<SudokuCell *> sectionCells = getSudokuSection(getSection(index));
     for (int i = 0; i < sectionCells.size(); i++) {
         if (std::find(vector.begin(), vector.end(), sectionCells.at(i)->getValue()) != vector.end()) {
@@ -40,7 +40,7 @@ int SudokuGrid::getIndex(int x, int y) const {
 
 
 int SudokuGrid::getSection(int index) const {
-   std::vector<int> location = getCellLocation(index);
+    std::vector<int> location = getCellLocation(index);
     int subdivX = location[0] / 3;
     int subdivY = location[1] / 3;
     int sectionIndex = subdivY * 3 + subdivX;
@@ -84,9 +84,9 @@ void SudokuGrid::importGrid(std::string grid) {
     std::vector<std::string> vector = tokenizer.getTokens();
     for (int i = 0; i < 81; i++) {
         const std::string element = vector[i];
-         bool final = element.length() > 1;
+        bool final = element.length() > 1;
         const int j = (element.at(0));
-         int number = j >= 48 ? j - 48 : j;
+        int number = j >= 48 ? j - 48 : j;
         if (number >9){
             number = 0;
             final =  false;
@@ -107,6 +107,8 @@ std::vector<SudokuCell *> SudokuGrid::getSudokuSection(int sectionNumber) {
 }
 
 
+
+
 std::string SudokuGrid::getGridString() const {
     std::stringstream ss;
     int oldColumn = 0;
@@ -125,18 +127,27 @@ QString SudokuGrid::getQtGridString() const {
     return QString::fromStdString(getGridString());
 }
 
+QString SudokuGrid::getQtMoveString() const {
+    std::stringstream stream;
+    for (int i = moveVector.size()-1 ; i>-1 ; i--){
+       SudokuMove* move = moveVector.at(i);
+
+        stream << move->toString() << " ";
+    }
+    return QString::fromStdString(stream.str());
+}
+
 void SudokuGrid::setCell(int index, SudokuCell *cell) {
     cellArray[index] = cell;
 }
 
-SudokuMove &SudokuGrid::popMove() {
-    SudokuMove *m = this->moveVector.top();
-    moveVector.pop();
-    return *m;
+SudokuMove *SudokuGrid::popMove() {
+    SudokuMove *m = this->moveVector.back();
+    moveVector.pop_back();
+    return m;
 
 }
 
-void SudokuGrid::addSudokuMove(const SudokuMove &move) {
-    //    moveVector.push(&move);
-
+void SudokuGrid::addSudokuMove( SudokuMove* move) {
+    moveVector.push_back(move);
 }
