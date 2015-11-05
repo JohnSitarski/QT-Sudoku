@@ -93,6 +93,9 @@ void SudokuGrid::importGrid(std::string grid) {
         }
         setCell(i, new SudokuCell(number, final));
     }
+
+
+
 }
 
 std::vector<SudokuCell *> SudokuGrid::getSudokuSection(int sectionNumber) {

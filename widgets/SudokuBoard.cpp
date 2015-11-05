@@ -1,5 +1,6 @@
 #include "SudokuBoard.h"
-
+#include <QStringList>
+#include "utils/Tokenizer.h"
 SudokuBoard::SudokuBoard(QWidget *parent) :
     QWidget(parent)
 {
@@ -85,14 +86,32 @@ void SudokuBoard::importGame(){
         QTextStream cout(stdout);
         QTextStream in(&file);
         std::string readIn ;
-        while(!in.atEnd()){
-            QString line =  in.readAll();
-            readIn += line.toUtf8().constData();
-            cout << line.split("\n")[1] << endl;
+
+        QString line =  in.readAll();
+        readIn += line.toUtf8().constData();
+        QStringList  list = line.split("\n");
+        grid.moveVector.clear();
+        if (list.length()>9){
+            QString moveLine = list.at(9);
+            QStringList moveList = moveLine.split(" ");
+            for (int i = 0 ;i<moveList.size();i++){
+                QStringList moveListOrder = moveList.at(i).split(",");
+                if (moveListOrder.size()>3){
+                    int index = moveListOrder.at(0).toInt();
+                    int newValue = moveListOrder.at(1).toInt();
+                    int oldValueint = moveListOrder.at(2).toInt();
+                    bool newBool = moveListOrder.at(3).toInt() >0 ? true : false;
+                    bool oldBool  =  moveListOrder.at(4).toInt()>0 ? true : false;
+                    cout <<  newBool << endl;
+                    grid.addSudokuMove(new SudokuMove(index,oldValueint,newValue,oldBool,newBool));
+                }
+
+            }
         }
-        cout << QString::fromStdString(readIn) << endl;
+
         grid.importGrid(readIn);
         refreshCells();
+
     }
 
 }
@@ -108,7 +127,7 @@ void SudokuBoard::saveGame(){
         QFile file (saveFile);
         if (file.open(QIODevice::ReadWrite)){
             QTextStream stream(&file);
-            stream << this->grid.getQtGridString() << endl;
+            stream << this->grid.getQtGridString() << "\n";
             stream << this->grid.getQtMoveString() << endl;
         }
         file.close();
@@ -166,7 +185,7 @@ void SudokuBoard::showSinglePossibleValues(){
         updateHint();
     }
 }
- void SudokuBoard::updateHint(){
+void SudokuBoard::updateHint(){
     for (int i = 0;i<81;i++){
         std::vector<int> vector = grid.getPossibleValues(i);
         if (grid.getCell(i).getValue() == 0){
@@ -194,13 +213,16 @@ void SudokuBoard::showSinglePossibleValues(){
     }
 }
 
-void SudokuBoard::undo(){
+    void SudokuBoard::undo(){
     if (grid.moveVector.size()>0){
         SudokuMove* move = grid.popMove();
-        grid.getCell(move->getIndex()).setFinal(move->getOldValue());
+
+        QTextStream cout(stdout);
+        cout << QString::fromStdString(move->toString()) << endl;
+        grid.getCell(move->getIndex()).setFinal(move->getOldFinalValue());
         grid.getCell(move->getIndex()).setValue(move->getOldValue());
         if (this->hintButton->isSwitchedOn() == false){
-        this->refreshCells();
+            this->refreshCells();
         }else{
             updateHint();
         }
