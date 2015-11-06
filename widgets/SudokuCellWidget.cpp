@@ -2,6 +2,7 @@
 
 
 
+// constructors
 SudokuCellWidget::SudokuCellWidget(int index, SudokuGrid *gridPointer){
     //this->board = board;
     this->gridPointer = gridPointer;
@@ -34,7 +35,11 @@ SudokuCellWidget::SudokuCellWidget(SudokuBoard *board,int index, SudokuGrid *gri
 
 
 
-
+/**
+ * @brief SudokuCellWidget::setBackgroundColor
+ * @param colorname
+ *sets the backend qss color of the background.
+ */
 void SudokuCellWidget::setBackgroundColor(std::string colorname) {
     generator.setBackgroundColor(QString::fromStdString(colorname));
     this->setStyleSheet(generator.generateStyleSheet());
@@ -46,12 +51,21 @@ SudokuCellWidget::~SudokuCellWidget(){
 
 }
 
+/**
+ * @brief SudokuCellWidget::setBorder
+ * @param border
+ */
 void SudokuCellWidget::setBorder(std::string border){
     generator.setBorderComponent(QString::fromStdString(border));
     this->setStyleSheet(generator.generateStyleSheet());
 
 }
 
+/**
+ * @brief SudokuCellWidget::setBold
+ * @param bold
+ *sets the the font to bold and updates the ui component.
+ */
 void SudokuCellWidget::setBold(bool bold){
     font.setBold(bold);
     this->setFont(font);
@@ -136,6 +150,8 @@ void SudokuCellWidget::setFinal(){
 void SudokuCellWidget::clearCell(){
     setBold(false);
     this->setText("");
+    SudokuCell sc = this->gridPointer->getCell(index);
+    this->gridPointer->addSudokuMove(new SudokuMove(index,sc.getValue(),0,sc.isFinal(),false));
     this->gridPointer->getCell(index).setFinal(false);
     this->gridPointer->getCell(index).setValue(0);
     clearCellBackground();

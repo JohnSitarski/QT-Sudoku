@@ -74,6 +74,10 @@ SudokuBoard::SudokuBoard(QWidget *parent) :
     layout.addLayout(boardLayout);
     this->setLayout(&layout);
 }
+/**
+ * @brief SudokuBoard::importGame
+ *Imports the game from a text file
+ */
 void SudokuBoard::importGame(){
 
     QString filePath = QFileDialog::getOpenFileName(this,tr("Select Saved Game"),QDir::homePath(),fileFilter);
@@ -118,6 +122,10 @@ void SudokuBoard::importGame(){
 }
 
 
+/**
+ * @brief SudokuBoard::saveGame
+ *Saves the game if the button has been pressed.
+ */
 void SudokuBoard::saveGame(){
     QString saveFile =  QFileDialog::getSaveFileName(this,"Save File",QDir::homePath(),fileFilter);
     if (saveFile.length() >0 && !saveFile.endsWith(".txt")){
@@ -134,6 +142,10 @@ void SudokuBoard::saveGame(){
         file.close();
     }
 }
+/**
+ * @brief SudokuBoard::addCells
+ *The inital addition of the cells to the board layout.
+ */
 void SudokuBoard::addCells(){
     for (int i  = 0;i<81;i++){
         std::vector<int>  location = grid.getCellLocation(i);
@@ -152,6 +164,10 @@ void SudokuBoard::addCells(){
 
 }
 
+/**
+ * @brief SudokuBoard::refreshCells
+ *Updates the uo components with the correct numbers and text.
+ */
 void SudokuBoard::refreshCells(){
     for (int i  = 0;i<81;i++){
         bool bo = grid.getCell(i).isFinal();
@@ -169,6 +185,10 @@ void SudokuBoard::refreshCells(){
     }
 }
 
+/**
+ * @brief SudokuBoard::showSinglePossibleValues
+ * Shows all the possible values for the entire grid
+ */
 void SudokuBoard::showSinglePossibleValues(){
     QStateButton* pointer = dynamic_cast<QStateButton*> (sender());
     if (pointer->isSwitchedOn() == false){
@@ -186,6 +206,10 @@ void SudokuBoard::showSinglePossibleValues(){
         updateHint();
     }
 }
+/**
+ * @brief SudokuBoard::updateHint
+ *updates all the hints for the board.
+ */
 void SudokuBoard::updateHint(){
     for (int i = 0;i<81;i++){
         std::vector<int> vector = grid.getPossibleValues(i);
@@ -216,35 +240,44 @@ void SudokuBoard::updateHint(){
     }
 }
 
+/**
+ * @brief SudokuBoard::showSingleHint
+ * @param i
+ *Shows the single hint for a invidual cell.
+ */
 void SudokuBoard::showSingleHint(int i){
-        std::vector<int> vector = grid.getPossibleValues(i);
+    std::vector<int> vector = grid.getPossibleValues(i);
 
-        if (grid.getCell(i).getValue() == 0){
-            SudokuCellWidget* pointer1 =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
-            if (vector.size() == 1 ){
-                pointer1->setBackgroundColor("green");
-                pointer1->setText("");
-            }else if (vector.size()>1){
-                std::stringstream  ss;
+    if (grid.getCell(i).getValue() == 0){
+        SudokuCellWidget* pointer1 =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
+        if (vector.size() == 1 ){
+            pointer1->setBackgroundColor("green");
+            pointer1->setText("");
+        }else if (vector.size()>1){
+            std::stringstream  ss;
 
-                for (int j = 0;j<vector.size();j++){
-                    ss << vector.at(j);
-                    if (j != (vector.size()-1)){
-                        ss << ",";
-                    }
-                    if (j %3 == 0){
-                        ss << "\n";
-                    }
+            for (int j = 0;j<vector.size();j++){
+                ss << vector.at(j);
+                if (j != (vector.size()-1)){
+                    ss << ",";
                 }
+                if (j %3 == 0){
+                    ss << "\n";
+                }
+            }
 
-                pointer1->font.setPixelSize(12);
-                pointer1->setFont(pointer1->font);
-                pointer1->setText(QString::fromStdString(ss.str()));
-                pointer1->setBackgroundColor("grey");
+            pointer1->font.setPixelSize(12);
+            pointer1->setFont(pointer1->font);
+            pointer1->setText(QString::fromStdString(ss.str()));
+            pointer1->setBackgroundColor("grey");
         }
     }
 }
 
+/**
+ * @brief SudokuBoard::undo
+ * Undos the last move made.
+ */
 void SudokuBoard::undo(){
     if (grid.moveVector.size()>0){
         SudokuMove* move = grid.popMove();

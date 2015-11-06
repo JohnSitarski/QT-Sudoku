@@ -32,6 +32,6 @@ HEADERS  += \
     widgets/SudokuBoard.h \
     widgets/QStateButton.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
 
 CONFIG +=console
