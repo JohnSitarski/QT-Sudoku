@@ -193,6 +193,7 @@ void SudokuBoard::updateHint(){
             SudokuCellWidget* pointer1 =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
             if (vector.size() == 1 ){
                 pointer1->setBackgroundColor("green");
+                pointer1->setText("");
             }else if (vector.size()>1){
                 std::stringstream  ss;
 
