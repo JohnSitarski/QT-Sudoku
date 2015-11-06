@@ -47,6 +47,7 @@ public slots:
     void setFinal();
     void clearCell();
     void clearCellBackground();
+    void showHint();
 
 };
 

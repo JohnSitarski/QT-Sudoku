@@ -216,6 +216,35 @@ void SudokuBoard::updateHint(){
     }
 }
 
+void SudokuBoard::showSingleHint(int i){
+        std::vector<int> vector = grid.getPossibleValues(i);
+
+        if (grid.getCell(i).getValue() == 0){
+            SudokuCellWidget* pointer1 =  dynamic_cast<SudokuCellWidget*>(boardLayout->itemAt(i)->widget());
+            if (vector.size() == 1 ){
+                pointer1->setBackgroundColor("green");
+                pointer1->setText("");
+            }else if (vector.size()>1){
+                std::stringstream  ss;
+
+                for (int j = 0;j<vector.size();j++){
+                    ss << vector.at(j);
+                    if (j != (vector.size()-1)){
+                        ss << ",";
+                    }
+                    if (j %3 == 0){
+                        ss << "\n";
+                    }
+                }
+
+                pointer1->font.setPixelSize(12);
+                pointer1->setFont(pointer1->font);
+                pointer1->setText(QString::fromStdString(ss.str()));
+                pointer1->setBackgroundColor("grey");
+        }
+    }
+}
+
 void SudokuBoard::undo(){
     if (grid.moveVector.size()>0){
         SudokuMove* move = grid.popMove();

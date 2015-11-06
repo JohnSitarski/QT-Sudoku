@@ -46,6 +46,7 @@ public:
     void refreshCells();
     void addCells();
     void updateHint();
+
 signals:
 
 
@@ -53,6 +54,7 @@ public slots:
     void importGame();
     void saveGame();
     void showSinglePossibleValues();
+    void showSingleHint(int index);
     void undo();
 
 

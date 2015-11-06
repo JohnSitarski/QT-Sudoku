@@ -57,9 +57,11 @@ void SudokuCellWidget::setBold(bool bold){
     this->setFont(font);
 }
 
+/**
+ * This method shows the right click menu.
+ * This method  generators a right click menu every time the label is object is clicked on.
+ */
 void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
-    // generate dynamic menu
-
     QMenu rightMenu( this);
     SudokuCell sc = gridPointer->getCell(index);
     if (sc.getValue() !=0){
@@ -72,9 +74,14 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
         rightMenu.addSeparator();
 
     }
-    // QMenu insertMenu("Insert Value",this);
     QMenu valueMenu("Possible Moves",this);
     std::vector<int>  vector =  gridPointer->getPossibleValues(index);
+    if (!board->hintButton->isSwitchedOn()){
+        QAction* hintAction = new QAction("Show hint",this);
+        hintAction->connect(hintAction,SIGNAL(triggered()),this,SLOT(showHint()));
+        rightMenu.addAction(hintAction);
+    }
+
     for (int i = 0;i<vector.size();i++){
         std::stringstream  ss;
         ss << "Possible Value " << vector.at(i) << std::endl;
@@ -83,23 +90,15 @@ void SudokuCellWidget::showRightClickMenu(const QPoint &pos){
         action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
         valueMenu.addAction(action);
     }
-
-    //  for (int i = 1;i<10;i++){
-    //    std::stringstream  ss;
-    //  ss << "Insert Value " << vector.at(i) << std::endl;
-    //  std::string string =  ss.str();
-    //  QAction* action = new QAction(QString::fromStdString(string), this);
-    //action->connect(action,SIGNAL(triggered()),this,SLOT(setValue()));
-    // insertMenu.addAction(action);
-    //  }
-
-    //rightMenu.addMenu(&insertMenu);
-    // rightMenu.addSeparator();
     rightMenu.addMenu(&valueMenu);
     rightMenu.exec(mapToGlobal(pos));
-
 }
 
+
+
+/**
+ * This method sets the value for a sudokucell in the logic and also updates the ui component relating to it.
+ */
 void SudokuCellWidget::setValue( ){
     QAction *pAction = qobject_cast<QAction*>(sender());
     QString text  = pAction->text();
@@ -116,6 +115,10 @@ void SudokuCellWidget::setValue( ){
         this->board->refreshCells();
     }
 }
+
+/**
+ * Sets the back end logic of the cell to a final value and also updates the ui component.
+ */
 void SudokuCellWidget::setFinal(){
 
     SudokuCell sc =  this->gridPointer->getCell(index);
@@ -126,6 +129,10 @@ void SudokuCellWidget::setFinal(){
     clearCellBackground();
 
 }
+
+/**
+ * Clears the cell back to it's back end state with a white background thus removing hints etc.
+ */
 void SudokuCellWidget::clearCell(){
     setBold(false);
     this->setText("");
@@ -138,7 +145,20 @@ void SudokuCellWidget::clearCell(){
         this->board->refreshCells();
     }
 }
+
+/**
+ * @brief SudokuCellWidget::clearCellBackground
+ * Sets the cell's background color to white thus the inital state of a cell
+ */
 void SudokuCellWidget::clearCellBackground(){
     this->updateGeometry();
     this->setBackgroundColor("white");
+}
+/**
+ * @brief SudokuCellWidget::showHint
+ *  Shows the invidual hint for the cell.
+ */
+void SudokuCellWidget::showHint(){
+
+    board->showSingleHint(index);
 }
