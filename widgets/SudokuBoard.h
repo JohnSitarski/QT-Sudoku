@@ -24,6 +24,12 @@
 #include <QTextStream>
 #include "widgets/QStateButton.h"
 #include <ostream>
+
+/**
+* QT Sudoku
+* Written By John Sitarski & Sinan Kocadag
+* Email Address John Sitarski - sitjy001@mymail.unisa.edu.au / Sinan Kocagag - kocsy006@mymail.unisa.edu.au
+*/
 class SudokuBoard : public QWidget
 {
     Q_OBJECT

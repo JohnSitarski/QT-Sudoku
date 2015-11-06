@@ -11,6 +11,12 @@
 #include "widgets/GameMenu.h"
 #include "widgets/GameScreen.h"
 #include "widgets/SudokuBoard.h"
+
+/**
+* QT Sudoku
+* Written By John Sitarski & Sinan Kocadag
+* Email Address John Sitarski - sitjy001@mymail.unisa.edu.au / Sinan Kocagag - kocsy006@mymail.unisa.edu.au
+*/
 int main(int argc, char *argv[])
 {
     // QSS borders

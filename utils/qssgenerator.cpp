@@ -1,5 +1,9 @@
 #include "qssgenerator.h"
-
+/**
+* QT Sudoku
+* Written By John Sitarski & Sinan Kocadag
+* Email Address John Sitarski - sitjy001@mymail.unisa.edu.au / Sinan Kocagag - kocsy006@mymail.unisa.edu.au
+*/
 
 
 QSSGenerator::QSSGenerator(QString componentName){

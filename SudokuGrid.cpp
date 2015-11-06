@@ -2,7 +2,11 @@
 #include "utils/Tokenizer.h"
 #include "ostream"
 
-
+/**
+* QT Sudoku
+* Written By John Sitarski & Sinan Kocadag
+* Email Address John Sitarski - sitjy001@mymail.unisa.edu.au / Sinan Kocagag - kocsy006@mymail.unisa.edu.au
+*/
 
 std::vector<int> SudokuGrid::getPossibleValues(int index) {
     std::vector<int> vector;
